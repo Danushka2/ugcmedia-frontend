@@ -55,13 +55,13 @@ const FAQSection = () => {
           <AccordionItem
             key={index}
             value={`item-${index}`}
-            className="rounded-xl border-0 bg-secondary px-6"
+            className="group rounded-2xl border border-border bg-card px-6 transition-all duration-300 hover:border-accent/40 hover:shadow-md data-[state=open]:border-accent data-[state=open]:shadow-xl data-[state=open]:shadow-accent/5 shadow-sm"
           >
-            <AccordionTrigger className="text-left text-base font-semibold text-foreground hover:no-underline [&[data-state=open]>svg]:rotate-45">
+            <AccordionTrigger className="py-4 text-left text-base font-bold text-foreground hover:no-underline [&[data-state=open]>svg]:rotate-45 [&[data-state=open]]:text-accent">
               {faq.question}
-              <Plus className="h-5 w-5 shrink-0 text-foreground transition-transform duration-200" />
+              <Plus className="h-5 w-5 shrink-0 text-muted-foreground transition-all duration-300 group-data-[state=open]:text-accent" />
             </AccordionTrigger>
-            <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+            <AccordionContent className="pb-6 text-base leading-relaxed text-muted-foreground">
               {faq.answer}
             </AccordionContent>
           </AccordionItem>
