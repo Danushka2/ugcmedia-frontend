@@ -21,7 +21,7 @@ const Index = () => {
       <BrandMarquee />
       <WhyTopBrandsSection />
       <WhyUGCSection />
-      <HowWeHelpSection />
+      {/* <HowWeHelpSection /> */}
       <CaseStudySection />
       <HowItWorksSection />
       <FAQSection />
