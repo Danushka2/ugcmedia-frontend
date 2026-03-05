@@ -1,6 +1,14 @@
 import { ArrowRight } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const footerLinks = {
+  Navigation: [
+    { label: "Home", href: "/" },
+    { label: "About Us", href: "/about" },
+    { label: "FAQ", href: "/#faq" },
+    { label: "Contact Us", href: "/contact" },
+    { label: "Terms of Service", href: "#" },
+  ],
   Services: [
     { label: "UGC Videos", href: "#" },
     { label: "Video Ads", href: "#" },
@@ -8,22 +16,43 @@ const footerLinks = {
     { label: "TikTok Content", href: "#" },
     { label: "Reels & Shorts", href: "#" },
   ],
-  Company: [
-    { label: "About Us", href: "/about" },
-    { label: "Contact", href: "/contact" },
-    { label: "Careers", href: "#" },
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms of Service", href: "#" },
-  ],
-  Resources: [
-    { label: "Blog", href: "#" },
-    { label: "Case Studies", href: "#" },
-    { label: "FAQ", href: "#" },
-    { label: "Creator Network", href: "#" },
+  "Follow Us": [
+    { label: "TikTok", href: "#" },
+    { label: "Instagram", href: "#" },
+    { label: "LinkedIn", href: "#" },
+    { label: "YouTube", href: "#" },
   ],
 };
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+
+    const isFaq = href.startsWith("/#");
+
+    if (isFaq) {
+      const id = href.replace("/#", "");
+      if (location.pathname === "/") {
+        const element = document.getElementById(id);
+        if (element) element.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate("/");
+        setTimeout(() => {
+          const element = document.getElementById(id);
+          if (element) element.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      }
+    } else if (href === "#") {
+      return;
+    } else {
+      navigate(href);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
   return (
     <footer className="border-t border-border bg-foreground text-background">
       {/* CTA Banner */}
@@ -34,13 +63,14 @@ const Footer = () => {
         <p className="mx-auto mt-4 max-w-lg text-sm text-background/60">
           Join leading brands in UAE creating high-performing, authentic UGC videos — starting from just AED 1,000.
         </p>
-        <a
-          href="/contact"
+        <Link
+          to="/contact"
+          onClick={(e) => handleNavClick(e as any, "/contact")}
           className="mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-8 py-3.5 text-sm font-semibold text-accent-foreground transition-opacity hover:opacity-90"
         >
           Get Started
           <ArrowRight className="h-4 w-4" />
-        </a>
+        </Link>
       </div>
 
       {/* Links Grid */}
@@ -48,12 +78,16 @@ const Footer = () => {
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-5 py-12 md:grid-cols-4">
           {/* Brand column */}
           <div className="col-span-2 md:col-span-1">
-            <a href="/" className="flex items-center gap-2 text-lg font-bold">
+            <Link
+              to="/"
+              onClick={(e) => handleNavClick(e as any, "/")}
+              className="flex items-center gap-2 text-lg font-bold"
+            >
               <div className="flex h-7 w-7 items-center justify-center rounded-md bg-background">
                 <span className="text-xs font-black text-foreground">U</span>
               </div>
               UGC Media
-            </a>
+            </Link>
             <p className="mt-4 text-xs leading-relaxed text-background/50">
               Relatable & impactful UGC videos that help your brand win on social. Real stories. Real faces. Real connection.
             </p>
@@ -68,12 +102,13 @@ const Footer = () => {
               <ul className="space-y-2.5">
                 {links.map((link) => (
                   <li key={link.label}>
-                    <a
-                      href={link.href}
+                    <Link
+                      to={link.href}
+                      onClick={(e) => handleNavClick(e as any, link.href)}
                       className="text-sm text-background/60 transition-colors hover:text-background"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -84,14 +119,8 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="border-t border-background/10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-5 py-6 text-xs text-background/40 md:flex-row">
+        <div className="mx-auto max-w-7xl px-5 py-6 text-center text-xs text-background/40">
           <p>© {new Date().getFullYear()} UGC Media. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="#" className="transition-colors hover:text-background">TikTok</a>
-            <a href="#" className="transition-colors hover:text-background">Instagram</a>
-            <a href="#" className="transition-colors hover:text-background">LinkedIn</a>
-            <a href="#" className="transition-colors hover:text-background">YouTube</a>
-          </div>
         </div>
       </div>
     </footer>
